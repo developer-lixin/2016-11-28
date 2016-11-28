@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		 <!--
+		 	1.需要有5颗星星，一个提示文字和一个隐藏的文字
+		 	2.鼠标移入
+		 		提示文字隐藏，隐藏的文字显示并随着移入的是第几个星星发生改变
+		 		星星的颜色会随着鼠标的移入变色，移入前两个星星的时候，是一种颜色；移入两颗以上的星星，颜色是另一种；
+		 	3.鼠标移出
+		 		提示文字显示，隐藏文字愿所有
+		 		星星的颜色恢复为原始的颜色
+		 	4.鼠标点击
+		 		点击第几颗，它之前的星星随着发生颜色变化，并且移出不会恢复为原来的颜色
+		 		
+		 -->
+		 <style>
+		 	body,
+		 	h2,
+		 	p {
+		 		margin: 0;
+		 	}
+		 	ul {
+		 		margin: 0;
+		 		padding: 0;
+		 		list-style: none;
+		 	}
+		 	.clearfix {
+		 		zoom: 1;
+		 	}
+		 	.clearfix:after {
+		 		content: "";
+		 		display: block;
+		 		clear: both;
+		 	}
+		 	#wrap {
+		 		width: 800px;
+		 		margin: 30px auto;
+		 	}
+		 	h2 {
+		 		float: left;
+		 	}
+		 	li {
+		 		float: left;
+		 		width: 20px;
+		 		height: 22px;
+		 		margin: 2px 5px;
+		 		background: url(../img/start1.png) no-repeat;
+		 	}
+		 	span {
+		 		display: inline-block;
+		 		width: 240px;
+		 		height: 40px;
+		 		margin: -5px 10px;
+		 		background: url(../img/bg.gif) no-repeat;
+		 	}
+		 	p {
+		 		float: left;
+		 		font: 16px/24px "宋体";
+		 		margin-left: 5px;
+		 	}
+		 	.show {
+		 		background: url(../img/start4.png) no-repeat;
+		 	}
+		 	.show1 {
+		 		background: url(../img/start2.png) no-repeat;
+		 	}
+		 </style>
+		 <script>
+		 	window.onload = function() {
+		 		var ul = document.getElementsByTagName('ul');
+		 		var lis = document.getElementsByTagName('li');
+		 		var span = document.querySelector('span');
+		 		var p = document.querySelector('p');
+		 		var now = -1;
+		 		var arr = [
+		 			"差",
+					"较差",
+					"还行",
+					"推荐",
+					"力推"
+		 		];
+		 		for(var i = 0; i < lis.length; i++) {
+		 			lis[i].index = i;
+		 			lis[i].onmouseover = function() {
+		 				var show = "show1";
+		 				if(this.index < 2) {
+	 						show = "show";
+		 				}
+		 				for(var i = 0; i < lis.length; i++) {
+		 					if(i <= this.index) {
+		 						lis[i].className = show;
+			 				}else {
+			 					lis[i].className = "";
+			 				}
+		 				}
+		 				span.style.background = "none";
+		 				p.innerHTML = arr[this.index];
+		 			};
+		 			lis[i].onclick = function() {
+		 				now = this.index;
+		 			};
+		 			lis[i].onmouseout = function() {
+		 				var show = "show1";
+		 				if(now < 2) {
+	 						show = "show";
+		 				}
+		 				for(var i = 0; i < lis.length; i++) {
+		 					if(i <= now) {
+		 						lis[i].className = show;
+			 				}else {
+			 					lis[i].className = "";
+			 				}
+		 				}
+		 				if(now < 0) {
+		 					span.style.background = "";
+		 					p.innerHTML = "";
+		 				}
+		 			};
+		 		}
+		 	};
+		 </script>
+	</head>
+	<body>
+		<section id="wrap" class="clearfix">
+			<h2>总体评价:</h2>
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+			<span></span>
+			<p></p>
+		</section>
+	</body>
+</html>
+

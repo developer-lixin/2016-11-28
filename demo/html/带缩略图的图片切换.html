@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body,
+			h2 {
+				margin: 0;
+			}
+			ul {
+				padding: 0;
+				margin: 0;
+				list-style: none;
+			}
+			.wrap {
+				position: relative;
+				width: 450px;
+				height: 245px;
+				margin: 30px auto;
+				text-align: center;
+			}
+			h2 {
+				font: bold 16px/20px "宋体";
+			}
+			input {
+				width: 40px;
+				height: 40px;
+				font: bold 24px/30px "宋体";
+				border-radius: 20px;
+				border: none;
+				opacity: .5;
+				background: #E8B600;
+				z-index: 2;
+				display: none;
+			}
+			#btn1 {
+				position: absolute;
+				left: 10px;
+				top: 120px;
+			}
+			#btn2 {
+				position: absolute;
+				right: 10px;
+				top: 120px;
+			}
+			.img {
+				position: absolute;
+				width: 100%;
+			}
+			.img img {
+				position: absolute;
+				left: 0;
+				top: 0;
+				opacity: 0;
+				transition: all 560ms;
+			}
+			.navs {
+				width: 60%;
+				height: 30px;
+				position: absolute;
+				left: 30%;
+				bottom: 0;
+				z-index: 2;
+			}
+			.navs li {
+				float: left;
+				width: 45px;
+				height: 45px;
+				background: #ccc;
+				border-radius: 50%;
+				position: relative;
+				transform: scale(.3);
+			}
+			.navs li img {
+				height: 80px;
+				border: 1px solid #fff;
+				position: absolute;
+				top: -90px;
+				left: -30px;
+				display: none;
+			}
+			.navs li .active {
+				background: pink;
+			}
+		</style>
+		<script>
+			window.onload = function() {
+				var wrap = document.querySelector('.wrap');
+				var btn1 = document.getElementById('btn1');
+				var btn2 = document.getElementById('btn2');
+				var img = document.querySelector('.img');
+				var navs = document.querySelector('.navs');
+				var lis = navs.getElementsByTagName('li');
+				var imgs = img.getElementsByTagName('img');
+				var sImg = navs.getElementsByTagName('img');
+				var now = 0;
+				var img1 = [
+					"../img/p1-1.png",
+					"../img/p1-2.png",
+					"../img/p1-3.png",
+					"../img/p1-4.png"
+				];
+				for(var i = 0; i < img1.length; i++) {
+					img.innerHTML += '<img src="'+img1[i]+'"/>';
+					navs.innerHTML += '<li><img src="'+img1[i]+'"/></li>';
+				}
+				show();
+				wrap.onmouseover = function() {
+					btn1.style.display = btn2.style.display = "block";
+				};
+				wrap.onmouseout = function() {
+					btn1.style.display = btn2.style.display = "";
+				};
+				btn1.onclick = function() {
+					now--;
+					if(now < 0) {
+						now = img1.length-1;
+					}
+					show();
+				};
+				btn2.onclick = function() {
+					now++;
+					if(now > img1.length-1) {
+						now = 0;
+					}
+					show();
+				};
+				for(var i = 0; i < img1.length; i++) {
+					lis[i].index = i;
+					lis[i].onmouseover = function() {
+						now = this.index;
+						show();
+						sImg[this.index].style.display = "block";
+						btn1.style.display = btn2.style.display = "";
+					};
+					lis[i].onmouseout = function() {
+						sImg[this.index].style.display = "";
+					};
+				}
+				function show() {
+					for(var i =0; i < imgs.length; i++) {
+						imgs[i].style.opacity = 0;
+						lis[i].className = "";
+					}
+					imgs[now].style.opacity = 1;
+					lis[now].className = "active";
+				}
+			};
+		</script>
+	</head>
+	<!--
+		1. 需要有一个img， 两个按钮，和5个元素
+		2. 当点击上一个按钮的时候图片向上切换，点击下一个按钮时，图片向下切换
+		3. 当图片切换的时候底下的图标也会随着变动，并且改变颜色
+		4. 当鼠标移入到底下图标的时候图标会显示出缩略图来
+	-->
+	<body>
+		<section class="wrap">
+			<h2>带缩略图的图片切换</h2>
+			<input type="button" value="<" id="btn1"/>
+			<input type="button" value=">" id="btn2" />
+			<div class="img"></div>
+			<nav class="navs">
+			</nav>
+		</section>
+	</body>
+</html>
